@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "616773915696",
+    "project_id": "bundesligaprediction",
+    "storage_bucket": "bundesligaprediction.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616773915696:android:f1af7a34eb843ff77dc9f5",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChLvC0Tkj0E3gXTZNlYI8L5LewFwTSE4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
