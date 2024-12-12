@@ -42,4 +42,13 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.okhttp)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    // Apache Commons CSV
+    implementation("org.apache.commons:commons-csv:1.9.0")
+
+    // Apache Commons Text (für Levenshtein-Distanz)
+    implementation("org.apache.commons:commons-text:1.9")
 }
