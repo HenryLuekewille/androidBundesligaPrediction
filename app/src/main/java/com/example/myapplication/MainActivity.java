@@ -2,46 +2,67 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Spinner;
+import android.widget.TableLayout;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
+
+
 public class MainActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
 
-        // Aktiviert Edge-to-Edge-Modus
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+//        // Überprüfen, ob der Benutzer eingeloggt ist
+//        if (!isUserLoggedIn()) {
+//            // Wenn nicht eingeloggt, öffne die RegisterActivity
+//            Intent intent = new Intent(this, RegisterActivity.class);
+//            startActivity(intent);
+//            finish();  // Verhindert, dass der Benutzer zur MainActivity zurückkehren kann
+//        } else {
+            // Andernfalls die reguläre MainActivity laden
+            setContentView(R.layout.activity_main);
 
-        // Stellt sicher, dass bei der Anwendung der Fensterinsets die Systemleisten berücksichtigt werden
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        // Überprüfe, ob der Benutzer eingeloggt ist
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+            DownloadHistoricalBundesligadata downloadHistoricalBundesligadata = new DownloadHistoricalBundesligadata();
+            downloadHistoricalBundesligadata.downloadAndMergeCSV(this);
 
-        if (currentUser == null) {
-            // Benutzer ist nicht eingeloggt, leite ihn zur RegisterActivity weiter
-            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-            startActivity(intent);
-            finish();  // Beende die MainActivity, um sie aus dem Backstack zu entfernen
+
+
+//            DataSetUpdater dataSetUpdater = new DataSetUpdater();
+//            dataSetUpdater.updateDataset(this);
+
+
+
+//            CSVReader csvReader = new CSVReader(this);
+//            csvReader.printLastLines(200);
+
+
+            //Tabelle anzeigen, wenn die Datei existiert
+            TableLayout tableLayout = findViewById(R.id.tableLayout);
+            File csvFile = new File(getFilesDir(), "2015-2024_Bundesligadata.csv");
+            Spinner gamedaySpinner = findViewById(R.id.gamedaySpinner);
+
+
+            if (csvFile.exists()) {
+                TableManager tableManager = new TableManager(this, tableLayout, gamedaySpinner);
+                tableManager.displayBundesligaTable(csvFile);
+            }
+
         }
-        // Wenn der Benutzer eingeloggt ist, bleibt die MainActivity einfach auf dem Bildschirm
-        // Keine Notwendigkeit für zusätzliche Weiterleitungen
     }
-}
 
-
+//    // Methode zur Überprüfung des Anmelde-Status (Firebase Auth)
+//    private boolean isUserLoggedIn() {
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        return currentUser != null;
+//    }
+//}

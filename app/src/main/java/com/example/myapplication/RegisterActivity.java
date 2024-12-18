@@ -31,9 +31,10 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.registerButton);
         loginRedirect = findViewById(R.id.loginRedirect);
 
+        // Beim Klicken auf den Registrierung-Button wird der Benutzer registriert
         registerButton.setOnClickListener(v -> registerUser());
 
-        // Wenn der Benutzer auf den Text klickt, um sich anzumelden, leite ihn zur LoginActivity weiter
+        // Wenn der Benutzer auf den Text klickt, um zur LoginActivity zu wechseln
         loginRedirect.setOnClickListener(v -> {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -50,18 +51,32 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        // Benutzer mit der Firebase-Authentifizierung registrieren
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                        finish();  // Beende die RegisterActivity nach der Weiterleitung
+                        if (user != null) {
+                            // Erfolgreiche Registrierung, speichere den Login-Status
+                            saveLoginStatus(true);
+
+                            // Zeige eine Erfolgsmeldung und leite zur LoginActivity weiter
+                            Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                            finish();  // Beende die RegisterActivity
+                        }
                     } else {
+                        // Fehlermeldung bei Fehler
                         Toast.makeText(this, "Registration Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
+    // Speichert den Anmelde-Status in SharedPreferences
+    private void saveLoginStatus(boolean isLoggedIn) {
+        getSharedPreferences("user_prefs", MODE_PRIVATE)
+                .edit()
+                .putBoolean("is_logged_in", isLoggedIn)
+                .apply();
+    }
 }
-
-
