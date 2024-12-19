@@ -12,30 +12,34 @@ import java.util.*;
 
 public class DataSetUpdater {
 
-    private static final String LATEST_CSV_URL = "https://www.football-data.co.uk/mmz4281/2425/D1.csv"; // Letzte Saison
+    private static final String LATEST_CSV_URL = "https://www.football-data.co.uk/mmz4281/2425/D1.csv";
     private static final String OUTPUT_FILE_NAME = "2015-2024_Bundesligadata.csv";
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
 
-    public void updateDataset(Context context) {
-        new UpdateDatasetTask(context).execute(LATEST_CSV_URL);
+    public interface UpdateCallback {
+        void onUpdateCompleted(boolean success);
     }
 
-    private static class UpdateDatasetTask extends AsyncTask<String, Void, String> {
-        private final Context context;
+    public void updateDataset(Context context, UpdateCallback callback) {
+        new UpdateDatasetTask(context, callback).execute(LATEST_CSV_URL);
+    }
 
-        public UpdateDatasetTask(Context context) {
+    private static class UpdateDatasetTask extends AsyncTask<String, Void, Boolean> {
+        private final Context context;
+        private final UpdateCallback callback;
+
+        public UpdateDatasetTask(Context context, UpdateCallback callback) {
             this.context = context;
+            this.callback = callback;
         }
 
         @Override
-        protected String doInBackground(String... urls) {
+        protected Boolean doInBackground(String... urls) {
             File outputFile = new File(context.getFilesDir(), OUTPUT_FILE_NAME);
-
-            // Bestehende Zeilen aus der CSV-Datei laden
-            Set<String> existingLines = loadExistingLines(outputFile);
-
-            List<String> newLines = new ArrayList<>();
             String header = null;
+            List<String> allData = new ArrayList<>();
+            boolean isFirstFile = true;
+            Map<String, Integer> existingGamedays = loadExistingGamedays(outputFile);
 
             try {
                 // Letzte CSV-Datei herunterladen und parsen
@@ -45,39 +49,49 @@ public class DataSetUpdater {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line;
 
-                boolean isFirstLine = true;
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 Calendar calendar = Calendar.getInstance();
                 String currentSeason = "";
                 int currentGameday = 1;
                 int gamesInCurrentGameday = 0;
 
+                boolean skipHeader = false;
                 while ((line = reader.readLine()) != null) {
-                    if (isFirstLine) {
-                        header = line; // Speichere den Header
-                        isFirstLine = false;
+                    if (header == null) {
+                        header = line.replaceAll(",Time", ""); // Remove Time column
+                        skipHeader = true;
+                        continue;
+                    }
+
+                    if (skipHeader) {
+                        skipHeader = false;
                         continue;
                     }
 
                     String[] columns = line.split(",");
-                    if (columns.length < 2) continue; // Zeilen mit unvollständigen Daten ignorieren
+                    if (columns.length < 2) continue; // Skip invalid rows
 
-                    // Entfernen der Uhrzeit-Spalte (3. Spalte)
+                    // Remove Time column if present
                     if (columns.length > 2 && columns[2].matches("\\d{2}:\\d{2}")) {
-                        // Erstelle ein neues Array, das alle Spalten außer der 3. Spalte enthält
                         String[] newColumns = new String[columns.length - 1];
-                        System.arraycopy(columns, 0, newColumns, 0, 2);  // Kopiere die ersten 2 Spalten (Season, Gameday, etc.)
-                        System.arraycopy(columns, 3, newColumns, 2, columns.length - 3);  // Kopiere alle weiteren Spalten (ab der 4. Spalte)
-                        columns = newColumns;  // Setze die Spalten auf das neue Array ohne die Uhrzeit
+                        System.arraycopy(columns, 0, newColumns, 0, 2);
+                        System.arraycopy(columns, 3, newColumns, 2, columns.length - 3);
+                        columns = newColumns;
                     }
 
-                    Date gameDate = DATE_FORMAT.parse(columns[1]);
-                    if (gameDate == null) continue;
+                    String gameDateString = columns[1];
+                    Date gameDate;
+                    try {
+                        gameDate = dateFormat.parse(gameDateString);
+                    } catch (Exception e) {
+                        Log.e("DatasetUpdater", "Invalid date format: " + gameDateString, e);
+                        continue;
+                    }
 
                     calendar.setTime(gameDate);
                     int year = calendar.get(Calendar.YEAR);
                     int month = calendar.get(Calendar.MONTH) + 1;
 
-                    // Saison bestimmen
                     String season = getSeasonForDate(year, month);
                     if (!season.equals(currentSeason)) {
                         currentSeason = season;
@@ -85,7 +99,6 @@ public class DataSetUpdater {
                         gamesInCurrentGameday = 0;
                     }
 
-                    // Spieltag-Logik: Ein Spieltag umfasst 9 Spiele
                     if (gamesInCurrentGameday < 9) {
                         gamesInCurrentGameday++;
                     } else {
@@ -93,62 +106,70 @@ public class DataSetUpdater {
                         gamesInCurrentGameday = 1;
                     }
 
-                    // Zeile erstellen: Saison und Spieltag hinzufügen
-                    StringBuilder modifiedLine = new StringBuilder();
-                    modifiedLine.append(currentSeason).append(",");
-                    modifiedLine.append(currentGameday).append(",");
-                    modifiedLine.append(String.join(",", columns));
-
-                    String finalLine = modifiedLine.toString();
-
-                    // Prüfen, ob Zeile bereits existiert
-                    if (!existingLines.contains(finalLine)) {
-                        newLines.add(finalLine);
+                    // Skip rows where the gameday is less than or equal to the maximum gameday for the season in the existing file
+                    if (existingGamedays.containsKey(currentSeason) && currentGameday <= existingGamedays.get(currentSeason)) {
+                        continue;
                     }
-                }
 
+                    StringBuilder modifiedLine = new StringBuilder();
+                    modifiedLine.append(currentSeason).append(",").append(currentGameday).append(",");
+                    for (String column : columns) {
+                        modifiedLine.append(column).append(",");
+                    }
+                    allData.add(modifiedLine.toString().replaceAll(",$", ""));
+                }
                 reader.close();
                 connection.disconnect();
-
             } catch (Exception e) {
                 Log.e("DatasetUpdater", "Error updating dataset", e);
-                return "Error updating dataset.";
+                return false;
             }
 
             // Neue Zeilen an die bestehende Datei anhängen
-            return appendNewLinesToFile(outputFile, header, newLines);
+            return appendNewLinesToFile(outputFile, header, allData);
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            Log.i("DatasetUpdater", result);
+        protected void onPostExecute(Boolean success) {
+            callback.onUpdateCompleted(success);
         }
 
-        private Set<String> loadExistingLines(File file) {
-            Set<String> lines = new HashSet<>();
-            if (!file.exists()) return lines;
+        private Map<String, Integer> loadExistingGamedays(File file) {
+            Map<String, Integer> seasonGamedays = new HashMap<>();
+            if (!file.exists()) return seasonGamedays;
 
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
                 boolean isFirstLine = true;
-
+                String line;
                 while ((line = reader.readLine()) != null) {
-                    if (isFirstLine) { // Überspringe Header
+                    if (isFirstLine) { // Skip header
                         isFirstLine = false;
                         continue;
                     }
-                    lines.add(line);
+
+                    String[] columns = line.split(",");
+                    if (columns.length < 3) continue; // Skip invalid rows
+
+                    String season = columns[0];
+                    int gameday;
+                    try {
+                        gameday = Integer.parseInt(columns[1]);
+                    } catch (NumberFormatException e) {
+                        Log.e("DatasetUpdater", "Invalid gameday format: " + columns[1], e);
+                        continue;
+                    }
+
+                    seasonGamedays.put(season, Math.max(seasonGamedays.getOrDefault(season, 0), gameday));
                 }
             } catch (IOException e) {
                 Log.e("DatasetUpdater", "Error reading existing file", e);
             }
-            return lines;
+            return seasonGamedays;
         }
 
-        private String appendNewLinesToFile(File file, String header, List<String> newLines) {
+        private boolean appendNewLinesToFile(File file, String header, List<String> newLines) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-                // Schreibe Header, falls Datei neu erstellt wird
-                if (!file.exists() && header != null) {
+                if (!file.exists()) {
                     writer.write("Season,Gameday," + header);
                     writer.newLine();
                 }
@@ -157,10 +178,10 @@ public class DataSetUpdater {
                     writer.write(line);
                     writer.newLine();
                 }
-                return "Dataset updated: " + newLines.size() + " new rows added.";
+                return true;
             } catch (IOException e) {
                 Log.e("DatasetUpdater", "Error appending to file", e);
-                return "Error updating dataset file.";
+                return false;
             }
         }
 

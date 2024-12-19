@@ -1,62 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:padding="16dp"
+    android:fillViewport="true"
     android:background="#F4F4F4">
 
-    <!-- Titel -->
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bundesliga Standings"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        tools:context=".MainActivity"
+        android:padding="16dp">
 
-    <!-- Spinner für die Spieltagsauswahl -->
-    <Spinner
-        android:id="@+id/gamedaySpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        <!-- Titel -->
 
-    <!-- ScrollView für die Tabelle -->
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/gamedaySpinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="16dp">
+        <!-- Prediction Button -->
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="156dp"
+            android:layout_marginTop="28dp"
+            android:text="Home"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/predictionButton"
+            android:layout_width="126dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="16dp"
+            android:text="Prediction"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleText" />
+
+        <!-- Spinner für die Spieltagsauswahl -->
 
         <!-- TableLayout für die Bundesliga-Tabelle -->
+
+        <Spinner
+            android:id="@+id/gamedaySpinner"
+            android:layout_width="158dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="148dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/predictionButton" />
+
         <TableLayout
             android:id="@+id/tableLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="1"
+            android:layout_marginTop="16dp"
             android:background="#FFFFFF"
             android:divider="@drawable/divider"
+            android:padding="8dp"
             android:showDividers="middle"
-            android:padding="8dp">
+            android:stretchColumns="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gamedaySpinner">
 
-            <!-- Beispiel für eine Kopfzeile -->
+            <!-- Kopfzeile -->
             <TableRow
                 android:background="#CCCCCC"
                 android:padding="8dp">
@@ -64,61 +75,61 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Platz"
-                    android:textStyle="bold"
                     android:textColor="#000000"
-                    android:gravity="center" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Team"
-                    android:textStyle="bold"
                     android:textColor="#000000"
-                    android:gravity="center" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Spiele"
-                    android:textStyle="bold"
                     android:textColor="#000000"
-                    android:gravity="center" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Punkte"
-                    android:textStyle="bold"
                     android:textColor="#000000"
-                    android:gravity="center" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Tore"
-                    android:textStyle="bold"
                     android:textColor="#000000"
-                    android:gravity="center" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Gegentore"
-                    android:textStyle="bold"
                     android:textColor="#000000"
-                    android:gravity="center" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Diff"
-                    android:textStyle="bold"
                     android:textColor="#000000"
-                    android:gravity="center" />
+                    android:textStyle="bold" />
             </TableRow>
 
         </TableLayout>
-    </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

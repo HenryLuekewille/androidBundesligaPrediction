@@ -29,6 +29,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".PredictionActivity"
+            android:exported="false" />
+
+        <!-- GamePlanActivity declaration -->
+        <activity android:name=".GamePlanActivity" />
+
         <!-- Kommentar: Optional, wenn du später eine weitere Aktivität hinzufügen möchtest -->
         <!--
         <activity
