@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -48,6 +50,17 @@ public class DownloadHistoricalBundesligadata {
 
         @Override
         protected String doInBackground(String... urls) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm != null) {
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                if (activeNetwork == null || !activeNetwork.isConnected()) {
+                    Log.e("DownloadMergeCSV", "No active network connection available.");
+                    return "No internet connection.";
+                }
+            } else {
+                Log.e("DownloadMergeCSV", "ConnectivityManager is null, cannot check network status.");
+                return "Error checking network status.";
+            }
             List<String> allData = new ArrayList<>();
             boolean isFirstFile = true;
             String header = null;

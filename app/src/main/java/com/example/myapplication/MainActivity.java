@@ -31,11 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
         File csvFile = new File(getFilesDir(), "2015-2024_Bundesligadata.csv");
 
-//        DownloadHistoricalBundesligadata downloadHistoricalBundesligadata = new DownloadHistoricalBundesligadata();
-//        downloadHistoricalBundesligadata.downloadAndMergeCSV(this);
-
-
-
         DataSetUpdater dataSetUpdater = new DataSetUpdater();
 
         dataSetUpdater.updateDataset(this, success -> {
