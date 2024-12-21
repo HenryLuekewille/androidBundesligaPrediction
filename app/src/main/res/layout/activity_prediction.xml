@@ -14,15 +14,76 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/predictButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="224dp"
-        android:text="Predict"
+    <!-- HorizontalScrollView to enable horizontal scrolling -->
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gamedaySpinner" />
+        app:layout_constraintTop_toBottomOf="@id/gamedaySpinner">
+
+        <!-- TableLayout inside HorizontalScrollView for horizontal scrolling -->
+        <TableLayout
+            android:id="@+id/predictionTable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- Table Headers -->
+            <TableRow android:background="#CCCCCC">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:padding="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Home Team"
+                    android:padding="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Away Team"
+                    android:padding="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Home Win"
+                    android:padding="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Draw"
+                    android:padding="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Away Win"
+                    android:padding="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Avg Goals"
+                    android:padding="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Over 1.5"
+                    android:padding="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Over 2.5"
+                    android:padding="8dp"/>
+            </TableRow>
+
+            <!-- Dynamically populated by PredictionActivity -->
+
+        </TableLayout>
+    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

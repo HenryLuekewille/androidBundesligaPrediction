@@ -1,124 +1,111 @@
 package com.example.myapplication;
 
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.AdapterView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import android.content.Context;
 
 public class PredictionActivity extends AppCompatActivity {
     private Spinner gamedaySpinner;
-    private String currentSeason;
     private static final String TAG = "PredictionActivity";
+    private PredictionEngine predictionEngine;
+    private TableLayout predictionTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prediction);
 
+        // Initialize views
         gamedaySpinner = findViewById(R.id.gamedaySpinner);
+        predictionTable = findViewById(R.id.predictionTable);
 
-        // Lade die aktuelle Saison dynamisch aus der CSV
-        currentSeason = getCurrentSeasonFromCSV();
-        if (currentSeason != null) {
-            loadGamedays();
-        } else {
-            Log.e(TAG, "Aktuelle Saison konnte nicht geladen werden.");
+        // Initialize PredictionEngine and load data
+        setupPredictionEngine();
+
+        // Setup spinner with available gamedays
+        setupGamedaySpinner();
+    }
+
+    private void setupPredictionEngine() {
+        predictionEngine = new PredictionEngine(getAssets());
+        predictionEngine.loadCurrentSeason();
+        predictionEngine.loadHistoricalData(this);
+    }
+
+    private void setupGamedaySpinner() {
+        List<String> gamedays = predictionEngine.getAvailableGamedays();
+        ArrayAdapter<String> gamedayAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                gamedays
+        );
+        gamedayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gamedaySpinner.setAdapter(gamedayAdapter);
+
+        gamedaySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedGameday = (String) parent.getItemAtPosition(position);
+                updatePredictions(Integer.parseInt(selectedGameday));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+    }
+
+    private void updatePredictions(int gameday) {
+        List<FutureMatch> predictions = predictionEngine.calculatePredictions(gameday);
+
+        // Remove all rows except the header
+        int childCount = predictionTable.getChildCount();
+        if (childCount > 1) {
+            predictionTable.removeViews(1, childCount - 1);
+        }
+
+        // Add prediction rows
+        for (FutureMatch match : predictions) {
+            addMatchRow(match);
         }
     }
 
-    private String getCurrentSeasonFromCSV() {
-        String lastSeason = null;
-        AssetManager assetManager = getAssets();
-        try (InputStream inputStream = assetManager.open("gameplan_24_25.csv");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+    private void addMatchRow(FutureMatch match) {
+        TableRow row = new TableRow(this);
 
-            String line;
+        // Add all match data
+        row.addView(createTextView(match.date));
+        row.addView(createTextView(match.homeTeam));
+        row.addView(createTextView(match.awayTeam));
+        row.addView(createTextView(formatProbability(match.homeProbability)));
+        row.addView(createTextView(formatProbability(match.drawProbability)));
+        row.addView(createTextView(formatProbability(match.awayProbability)));
+        row.addView(createTextView(String.format("%.1f", match.totalAvgGoals)));
+        row.addView(createTextView(formatProbability(match.over15Probability)));
+        row.addView(createTextView(formatProbability(match.over25Probability)));
 
-            // Überspringe die Kopfzeile
-            reader.readLine();
-
-            // Lies alle Zeilen und speichere die letzte Saison aus Spalte 1
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length >= 1) {
-                    lastSeason = data[0].trim(); // Spalte 1 enthält die Saison
-                }
-            }
-
-        } catch (IOException e) {
-            Log.e(TAG, "Fehler beim Lesen der CSV-Datei für die aktuelle Saison.", e);
-        }
-
-        return lastSeason != null ? lastSeason : "2023/2024"; // Fallback, falls Datei leer ist
+        predictionTable.addView(row);
     }
 
-    private void loadGamedays() {
-        // Format definieren
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    private TextView createTextView(String text) {
+        TextView textView = new TextView(this);
+        textView.setText(text);
+        textView.setPadding(8, 8, 8, 8);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        return textView;
+    }
 
-        // Heutiges Datum abrufen
-        Calendar calendar = Calendar.getInstance();
-        Date currentDate = calendar.getTime();
-
-        List<String> gamedays = new ArrayList<>();
-        AssetManager assetManager = getAssets();
-
-        try (InputStream inputStream = assetManager.open("gameplan_24_25.csv");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-
-            String line;
-
-            // Überspringe die Kopfzeile
-            reader.readLine();
-
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
-
-                // Sicherstellen, dass die notwendigen Spalten existieren (z.B. Spalte für Datum)
-                if (data.length >= 3) {
-                    String season = data[0].trim();
-                    String gameday = data[1].trim();
-                    String matchDateStr = data[2].trim(); // Spalte für Datum (z.B. "2024-12-20")
-
-                    try {
-                        // Match-Datum parsen
-                        Date matchDate = sdf.parse(matchDateStr);
-
-                        // Spiele hinzufügen, die größer oder gleich dem aktuellen Datum sind
-                        if (season.equals(currentSeason) && matchDate != null && !gamedays.contains(gameday) && !matchDate.before(currentDate)) {
-                            gamedays.add(gameday);
-                        }
-                    } catch (Exception e) {
-                        Log.e("loadGamedays", "Fehler beim Parsen des Datums: " + matchDateStr, e);
-                    }
-                }
-            }
-
-            // Spinner mit den gefilterten Spieltagen befüllen
-            ArrayAdapter<String> gamedayAdapter = new ArrayAdapter<>(
-                    this,
-                    android.R.layout.simple_spinner_item,
-                    gamedays
-            );
-            gamedayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            gamedaySpinner.setAdapter(gamedayAdapter);
-
-        } catch (IOException e) {
-            Log.e("loadGamedays", "Fehler beim Lesen der CSV-Datei", e);
-        }
+    private String formatProbability(double probability) {
+        return String.format("%.1f%%", probability * 100);
     }
 }
-
