@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intentPredict);
         });
 
-        teamInsightsButton = findViewById(R.id.teamIsnightsButton);
+        teamInsightsButton = findViewById(R.id.teamInsightsButton);
         teamInsightsButton.setOnClickListener(v -> {
             Intent intentTeamInsights = new Intent(MainActivity.this, TeamInsightsActivity.class);
             startActivity(intentTeamInsights);
