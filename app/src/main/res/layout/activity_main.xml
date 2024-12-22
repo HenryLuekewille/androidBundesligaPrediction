@@ -18,6 +18,26 @@
 
         <!-- Prediction Button -->
 
+        <Button
+            android:id="@+id/ResultsButton"
+            android:layout_width="126dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="92dp"
+            android:text="Results"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleText" />
+
+        <Button
+            android:id="@+id/TeamButton"
+            android:layout_width="126dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="232dp"
+            android:layout_marginTop="92dp"
+            android:text="Team Insights"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleText" />
+
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
@@ -31,18 +51,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Spinner für die Spieltagsauswahl -->
+
+        <!-- TableLayout für die Bundesliga-Tabelle -->
+
         <Button
             android:id="@+id/predictionButton"
             android:layout_width="126dp"
             android:layout_height="57dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="124dp"
+            android:layout_marginTop="20dp"
             android:text="Prediction"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleText" />
-
-        <!-- Spinner für die Spieltagsauswahl -->
-
-        <!-- TableLayout für die Bundesliga-Tabelle -->
 
         <Spinner
             android:id="@+id/gamedaySpinner"
