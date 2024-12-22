@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Team Insights"
-            tools:layout_editor_absoluteX="220dp"
+            tools:layout_editor_absoluteX="224dp"
             tools:layout_editor_absoluteY="154dp" />
 
         <TextView
