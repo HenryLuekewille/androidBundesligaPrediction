@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.content.Intent;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -10,16 +9,14 @@ import android.widget.TableLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
-
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private Button predictionButton;
-
+    private Button teamInsightsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +46,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intentPredict = new Intent(MainActivity.this, PredictionActivity.class);
             startActivity(intentPredict);
         });
+
+        teamInsightsButton = findViewById(R.id.teamIsnightsButton);
+        teamInsightsButton.setOnClickListener(v -> {
+            Intent intentTeamInsights = new Intent(MainActivity.this, TeamInsightsActivity.class);
+            startActivity(intentTeamInsights);
+        });
     }
-
-
 }
-
-
-//    // Methode zur Überprüfung des Anmelde-Status (Firebase Auth)
-//    private boolean isUserLoggedIn() {
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        return currentUser != null;
-//    }
-//}
-

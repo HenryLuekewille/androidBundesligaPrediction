@@ -22,21 +22,21 @@
             android:id="@+id/ResultsButton"
             android:layout_width="126dp"
             android:layout_height="57dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="36dp"
             android:layout_marginTop="92dp"
             android:text="Results"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleText" />
 
+
         <Button
-            android:id="@+id/TeamButton"
-            android:layout_width="126dp"
-            android:layout_height="57dp"
-            android:layout_marginStart="232dp"
-            android:layout_marginTop="92dp"
+            android:id="@+id/teamInsightsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Team Insights"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleText" />
+            tools:layout_editor_absoluteX="220dp"
+            tools:layout_editor_absoluteY="154dp" />
 
         <TextView
             android:id="@+id/titleText"

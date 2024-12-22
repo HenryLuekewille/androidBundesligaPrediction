@@ -51,6 +51,10 @@
             android:name=".LoginActivity"
             android:exported="true" />
 
+        <!-- Team Insight Activity -->
+        <activity android:name=".TeamInsightsActivity" />
+
+
     </application>
 
 </manifest>
