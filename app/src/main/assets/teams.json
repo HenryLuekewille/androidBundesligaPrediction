@@ -1,14 +1,14 @@
 {
   "BundesligaTeams": [
     {
-      "name": "Borussia Mönchengladbach",
+      "name": "M'gladbach",
       "coach": "Gerardo Seoane",
       "bundesliga_titles": 5,
       "dfb_pokal_titles": 3,
       "champions_league_titles": 0
     },
     {
-      "name": "FC St. Pauli",
+      "name": "St Pauli",
       "coach": "Alexander Blessin",
       "bundesliga_titles": 0,
       "dfb_pokal_titles": 0,
@@ -22,28 +22,28 @@
       "champions_league_titles": 0
     },
     {
-      "name": "1. FSV Mainz 05",
+      "name": "Mainz",
       "coach": "Bo Svensson",
       "bundesliga_titles": 0,
       "dfb_pokal_titles": 0,
       "champions_league_titles": 0
     },
     {
-      "name": "VfB Stuttgart",
+      "name": "Stuttgart",
       "coach": "Sebastian Hoeneß",
       "bundesliga_titles": 3,
       "dfb_pokal_titles": 3,
       "champions_league_titles": 0
     },
     {
-      "name": "VfL Bochum 1848",
+      "name": "Bochum",
       "coach": "Dieter Hecking",
       "bundesliga_titles": 0,
       "dfb_pokal_titles": 0,
       "champions_league_titles": 0
     },
     {
-      "name": "TSG Hoffenheim",
+      "name": "Hoffenheim",
       "coach": "Christian Ilzer",
       "bundesliga_titles": 0,
       "dfb_pokal_titles": 0,
@@ -57,70 +57,70 @@
       "champions_league_titles": 0
     },
     {
-      "name": "Bayer 04 Leverkusen",
+      "name": "Leverkusen",
       "coach": "Xabi Alonso",
       "bundesliga_titles": 1,
       "dfb_pokal_titles": 4,
       "champions_league_titles": 0
     },
     {
-      "name": "1. FC Heidenheim 1846",
+      "name": "Heidenheim",
       "coach": "Frank Schmidt",
       "bundesliga_titles": 0,
       "dfb_pokal_titles": 0,
       "champions_league_titles": 0
     },
     {
-      "name": "Borussia Dortmund",
+      "name": "Dortmund",
       "coach": "Edin Terzić",
       "bundesliga_titles": 8,
       "dfb_pokal_titles": 5,
       "champions_league_titles": 1
     },
     {
-      "name": "SC Freiburg",
+      "name": "Freiburg",
       "coach": "Christian Streich",
       "bundesliga_titles": 0,
       "dfb_pokal_titles": 0,
       "champions_league_titles": 0
     },
     {
-      "name": "VfL Wolfsburg",
+      "name": "Wolfsburg",
       "coach": "Niko Kovač",
       "bundesliga_titles": 1,
       "dfb_pokal_titles": 1,
       "champions_league_titles": 0
     },
     {
-      "name": "1. FC Union Berlin",
+      "name": "Union Berlin",
       "coach": "Marco Grote",
       "bundesliga_titles": 0,
       "dfb_pokal_titles": 0,
       "champions_league_titles": 0
     },
     {
-      "name": "Eintracht Frankfurt",
+      "name": "Ein Frankfurt",
       "coach": "Dino Toppmöller",
       "bundesliga_titles": 1,
       "dfb_pokal_titles": 5,
       "champions_league_titles": 0
     },
     {
-      "name": "SV Werder Bremen",
+      "name": "Werder Bremen",
       "coach": "Ole Werner",
       "bundesliga_titles": 4,
       "dfb_pokal_titles": 6,
       "champions_league_titles": 0
     },
     {
-      "name": "FC Bayern München",
+      "name": "Bayern Munich",
       "coach": "Vincent Kompany",
       "bundesliga_titles": 32,
       "dfb_pokal_titles": 20,
       "champions_league_titles": 6
     },
     {
-      "name": "FC Augsburg",
+      "name": "Augsburg",
       "coach": "Enrico Maaßen",
       "bundesliga_titles": 0,
       "dfb_pokal_titles": 0,
