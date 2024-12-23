@@ -54,6 +54,7 @@
         <!-- Team Insight Activity -->
         <activity android:name=".TeamInsightsActivity" />
 
+        <activity android:name=".ResultsActivity" />
 
     </application>
 

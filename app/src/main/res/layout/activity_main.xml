@@ -11,84 +11,80 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".MainActivity"
-        android:padding="16dp">
+        android:padding="16dp"
+        tools:context=".MainActivity">
 
-        <!-- Titel -->
-
-        <!-- Prediction Button -->
-
-        <Button
-            android:id="@+id/ResultsButton"
-            android:layout_width="126dp"
-            android:layout_height="57dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="92dp"
-            android:text="Results"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleText" />
-
-
-        <Button
-            android:id="@+id/teamInsightsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Team Insights"
-            tools:layout_editor_absoluteX="224dp"
-            tools:layout_editor_absoluteY="154dp" />
-
+        <!-- Title -->
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="156dp"
-            android:layout_marginTop="28dp"
-            android:text="Home"
+            android:layout_marginTop="16dp"
+            android:text="Bundesliga App"
             android:textColor="#000000"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Spinner für die Spieltagsauswahl -->
+        <!-- Results Button -->
+        <Button
+            android:id="@+id/resultsButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Results"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleText"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- TableLayout für die Bundesliga-Tabelle -->
+        <!-- Team Insights Button -->
+        <Button
+            android:id="@+id/teamInsightsButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Team Insights"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resultsButton"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Prediction Button -->
         <Button
             android:id="@+id/predictionButton"
-            android:layout_width="126dp"
-            android:layout_height="57dp"
-            android:layout_marginStart="124dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Prediction"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleText" />
+            app:layout_constraintTop_toBottomOf="@id/teamInsightsButton"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Spinner for Gameday Selection -->
         <Spinner
             android:id="@+id/gamedaySpinner"
-            android:layout_width="158dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="148dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@android:drawable/btn_dropdown"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/predictionButton" />
+            app:layout_constraintTop_toBottomOf="@id/predictionButton"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Bundesliga Table -->
         <TableLayout
             android:id="@+id/tableLayout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="#FFFFFF"
-            android:divider="@drawable/divider"
             android:padding="8dp"
-            android:showDividers="middle"
-            android:stretchColumns="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:stretchColumns="*"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gamedaySpinner">
+            app:layout_constraintTop_toBottomOf="@id/gamedaySpinner"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- Kopfzeile -->
+            <!-- Table Header -->
             <TableRow
                 android:background="#CCCCCC"
                 android:padding="8dp">
@@ -151,6 +147,5 @@
             </TableRow>
 
         </TableLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

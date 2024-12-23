@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Button predictionButton;
     private Button teamInsightsButton;
+    private Button resultsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
         teamInsightsButton.setOnClickListener(v -> {
             Intent intentTeamInsights = new Intent(MainActivity.this, TeamInsightsActivity.class);
             startActivity(intentTeamInsights);
+        });
+
+        resultsButton = findViewById(R.id.resultsButton);
+        resultsButton.setOnClickListener(v -> {
+            Intent intentResults = new Intent(MainActivity.this, ResultsActivity.class);
+            startActivity(intentResults);
         });
     }
 }
