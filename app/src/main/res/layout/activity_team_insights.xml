@@ -57,11 +57,11 @@
             android:id="@+id/teamStatsTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="Team stats will appear here"
-            android:padding="8dp"
+            android:layout_marginBottom="16dp"
             android:background="#EEEEEE"
-            android:layout_marginBottom="16dp" />
+            android:padding="8dp"
+            android:text="Team stats will appear here"
+            android:textSize="16sp" />
 
         <!-- Section: Past 5 Games -->
         <TextView
@@ -80,5 +80,27 @@
             android:stretchColumns="*"
             android:background="#EEEEEE"
             android:padding="8dp" />
+
+        <!-- Section: Stats 2024 -->
+        <TextView
+            android:id="@+id/stats2024Header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stats 2024"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/stats2024TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Season stats will appear here"
+            android:padding="8dp"
+            android:background="#EEEEEE"
+            android:layout_marginBottom="16dp" />
+
     </LinearLayout>
 </ScrollView>
