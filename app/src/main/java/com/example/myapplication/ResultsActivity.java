@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -11,9 +13,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,9 +34,15 @@ public class ResultsActivity extends AppCompatActivity {
         gamedaySpinner = findViewById(R.id.gamedaySpinner);
         resultsTable = findViewById(R.id.resultsTable);
 
-        // Load matches using the existing CSVReader
-        CSVReader csvReader = new CSVReader(this);
-        allMatches = parseCSVFile(csvReader);
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            // Finish this activity and return to the previous one
+            finish();
+        });
+
+        // Load matches using CSVReader2
+        CSVReader2 csvReader = new CSVReader2(this);
+        allMatches = csvReader.readMatchData2();
 
         // Populate season spinner
         populateSeasonSpinner();
@@ -70,42 +75,6 @@ public class ResultsActivity extends AppCompatActivity {
                 resultsTable.removeAllViews();
             }
         });
-    }
-
-    private List<MatchData> parseCSVFile(CSVReader csvReader) {
-        List<MatchData> matches = new ArrayList<>();
-        File file = new File(getFilesDir(), "2015-2024_Bundesligadata.csv");
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            boolean isHeader = true;
-
-            while ((line = reader.readLine()) != null) {
-                if (isHeader) {
-                    isHeader = false;
-                    continue; // Skip header row
-                }
-
-                String[] columns = line.split(",");
-                if (columns.length < 7) continue;
-
-                try {
-                    String season = columns[1].trim(); // Season
-                    int gameday = Integer.parseInt(columns[2].trim()); // Gameday
-                    String homeTeam = columns[4].trim(); // Home team
-                    String awayTeam = columns[5].trim(); // Away team
-                    int homeGoals = Integer.parseInt(columns[6].trim()); // Home team goals
-                    int awayGoals = Integer.parseInt(columns[7].trim()); // Away team goals
-
-                    matches.add(new MatchData(season, gameday, homeTeam, awayTeam, homeGoals, awayGoals));
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return matches;
     }
 
     private void populateSeasonSpinner() {
@@ -166,9 +135,7 @@ public class ResultsActivity extends AppCompatActivity {
         TableRow headerRow = new TableRow(this);
         String[] headers = {"Home Team", "Away Team", "Result"};
         for (String header : headers) {
-            TextView textView = new TextView(this);
-            textView.setText(header);
-            headerRow.addView(textView);
+            headerRow.addView(createTextView(header));
         }
         resultsTable.addView(headerRow);
 
@@ -191,7 +158,7 @@ public class ResultsActivity extends AppCompatActivity {
         return textView;
     }
 
-    private static class MatchData {
+    public static class MatchData {
         String season;
         int gameday, homeGoals, awayGoals;
         String homeTeam, awayTeam;
