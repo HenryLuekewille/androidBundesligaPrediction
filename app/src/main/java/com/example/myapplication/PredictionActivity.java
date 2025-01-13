@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.TableLayout;
@@ -27,6 +28,10 @@ public class PredictionActivity extends AppCompatActivity {
         // Initialize views
         gamedaySpinner = findViewById(R.id.gamedaySpinner);
         predictionTable = findViewById(R.id.predictionTable);
+
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish()); // Close the current activity
+
 
         // Initialize PredictionEngine and load data
         setupPredictionEngine();

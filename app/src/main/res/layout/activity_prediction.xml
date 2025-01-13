@@ -1,89 +1,124 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <Spinner
-        android:id="@+id/gamedaySpinner"
-        android:layout_width="187dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- HorizontalScrollView to enable horizontal scrolling -->
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gamedaySpinner">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <!-- TableLayout inside HorizontalScrollView for horizontal scrolling -->
-        <TableLayout
-            android:id="@+id/predictionTable"
-            android:layout_width="wrap_content"
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="16dp">
 
-            <!-- Table Headers -->
-            <TableRow android:background="#CCCCCC">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Date"
-                    android:padding="8dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Home Team"
-                    android:padding="8dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Away Team"
-                    android:padding="8dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Home Win"
-                    android:padding="8dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Draw"
-                    android:padding="8dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Away Win"
-                    android:padding="8dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Avg Goals"
-                    android:padding="8dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Over 1.5"
-                    android:padding="8dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Over 2.5"
-                    android:padding="8dp"/>
-            </TableRow>
+            <!-- Back Button -->
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:padding="9dp"
+                android:text="Back" />
 
-            <!-- Dynamically populated by PredictionActivity -->
+            <!-- Main Header -->
+            <TextView
+                android:id="@+id/headerTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Game Day Predictions"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-        </TableLayout>
-    </HorizontalScrollView>
+        <!-- Spinner Section -->
+        <Spinner
+            android:id="@+id/gamedaySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Section: Prediction Table -->
+        <TextView
+            android:id="@+id/predictionsHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Predictions"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <!-- HorizontalScrollView for Table -->
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- TableLayout inside HorizontalScrollView -->
+            <TableLayout
+                android:id="@+id/predictionTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="#EEEEEE">
+
+                <!-- Table Headers -->
+                <TableRow android:background="#CCCCCC">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date"
+                        android:padding="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Home Team"
+                        android:padding="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Away Team"
+                        android:padding="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Home Win"
+                        android:padding="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Draw"
+                        android:padding="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Away Win"
+                        android:padding="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Avg Goals"
+                        android:padding="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Over 1.5"
+                        android:padding="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Over 2.5"
+                        android:padding="8dp" />
+                </TableRow>
+
+                <!-- Dynamically populated rows -->
+
+            </TableLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+</ScrollView>
