@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 import java.util.List;
 import android.content.Context;
 
@@ -18,7 +21,8 @@ public class PredictionActivity extends AppCompatActivity {
     private static final String TAG = "PredictionActivity";
     private PredictionEngine predictionEngine;
     private TableLayout predictionTable;
-
+    private TextView bestBetsContent;
+    private Button backButtonP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +31,13 @@ public class PredictionActivity extends AppCompatActivity {
         // Initialize views
         gamedaySpinner = findViewById(R.id.gamedaySpinner);
         predictionTable = findViewById(R.id.predictionTable);
+        bestBetsContent = findViewById(R.id.bestBetsContent);
+        backButtonP = findViewById(R.id.backButtonP);
 
+        // Set up back button
+        backButtonP.setOnClickListener(v -> {
+            finish();
+        });
         // Initialize PredictionEngine and load data
         setupPredictionEngine();
 
@@ -68,16 +78,55 @@ public class PredictionActivity extends AppCompatActivity {
     private void updatePredictions(int gameday) {
         List<FutureMatch> predictions = predictionEngine.calculatePredictions(gameday);
 
-        // Remove all rows except the header
+        // Update table as before
         int childCount = predictionTable.getChildCount();
         if (childCount > 1) {
             predictionTable.removeViews(1, childCount - 1);
         }
 
-        // Add prediction rows
         for (FutureMatch match : predictions) {
             addMatchRow(match);
         }
+
+        // Update best bets section
+        updateBestBets(predictions);
+    }
+
+    private void updateBestBets(List<FutureMatch> predictions) {
+        StringBuilder bestBets = new StringBuilder();
+
+        // Find top 2 matches with highest win probabilities
+        List<FutureMatch> topWinProbabilities = new ArrayList<>(predictions);
+        topWinProbabilities.sort((m1, m2) -> {
+            double m1MaxProb = Math.max(m1.homeProbability, m1.awayProbability);
+            double m2MaxProb = Math.max(m2.homeProbability, m2.awayProbability);
+            return Double.compare(m2MaxProb, m1MaxProb);
+        });
+
+        bestBets.append("Highest win probabilities:\n");
+        for (int i = 0; i < Math.min(2, topWinProbabilities.size()); i++) {
+            FutureMatch match = topWinProbabilities.get(i);
+            if (match.homeProbability > match.awayProbability) {
+                bestBets.append(String.format("• %s vs %s: Home win %.1f%%\n",
+                        match.homeTeam, match.awayTeam, match.homeProbability * 100));
+            } else {
+                bestBets.append(String.format("• %s vs %s: Away win %.1f%%\n",
+                        match.homeTeam, match.awayTeam, match.awayProbability * 100));
+            }
+        }
+
+        // Find matches with highest over 2.5 goals probability
+        List<FutureMatch> topOverProbabilities = new ArrayList<>(predictions);
+        topOverProbabilities.sort((m1, m2) -> Double.compare(m2.over25Probability, m1.over25Probability));
+
+        bestBets.append("\nHighest over 2.5 goals probability:\n");
+        for (int i = 0; i < Math.min(2, topOverProbabilities.size()); i++) {
+            FutureMatch match = topOverProbabilities.get(i);
+            bestBets.append(String.format("• %s vs %s: Over 2.5 goals %.1f%%\n",
+                    match.homeTeam, match.awayTeam, match.over25Probability * 100));
+        }
+
+        bestBetsContent.setText(bestBets.toString());
     }
 
     private void addMatchRow(FutureMatch match) {
