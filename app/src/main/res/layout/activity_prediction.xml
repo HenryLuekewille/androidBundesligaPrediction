@@ -142,7 +142,8 @@
             android:layout_height="37dp"
             android:layout_marginStart="9dp"
             android:layout_marginTop="10dp"
-            android:text="Back" />
+            android:text="Back "
+            android:backgroundTint="@color/red"/>
 
     </LinearLayout>
 </ScrollView>
