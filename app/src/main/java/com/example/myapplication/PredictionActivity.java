@@ -34,10 +34,17 @@ public class PredictionActivity extends AppCompatActivity {
         bestBetsContent = findViewById(R.id.bestBetsContent);
         backButtonP = findViewById(R.id.backButtonP);
 
+
         // Set up back button
         backButtonP.setOnClickListener(v -> {
             finish();
         });
+
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish()); // Close the current activity
+
+
+
         // Initialize PredictionEngine and load data
         setupPredictionEngine();
 

@@ -42,17 +42,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Team Insights Button -->
         <Button
             android:id="@+id/resultsButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="28dp"
             android:text="Results"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleText"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:backgroundTint="@color/red" />
 
-        <!-- Team Insights Button -->
         <Button
             android:id="@+id/teamInsightsButton"
             android:layout_width="0dp"
@@ -61,7 +63,8 @@
             android:text="Team Insights"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resultsButton"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="@color/red" />
 
         <!-- Prediction Button -->
         <Button
@@ -72,7 +75,8 @@
             android:text="Prediction"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/teamInsightsButton"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="@color/red" />
 
         <!-- Spinner for Gameday Selection -->
         <Spinner
