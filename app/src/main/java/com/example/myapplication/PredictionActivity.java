@@ -40,10 +40,6 @@ public class PredictionActivity extends AppCompatActivity {
             finish();
         });
 
-        Button backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> finish()); // Close the current activity
-
-
 
         // Initialize PredictionEngine and load data
         setupPredictionEngine();
