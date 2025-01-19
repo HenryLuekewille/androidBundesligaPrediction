@@ -92,9 +92,13 @@
         android:id="@+id/imageView2"
         android:layout_width="192dp"
         android:layout_height="348dp"
-        app:srcCompat="@drawable/bundesligalogo"
-        tools:layout_editor_absoluteX="109dp"
-        tools:layout_editor_absoluteY="-31dp" />
+        android:layout_marginStart="109dp"
+        android:layout_marginEnd="110dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/emailRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/bundesligalogo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
