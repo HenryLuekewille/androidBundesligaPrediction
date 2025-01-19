@@ -18,25 +18,43 @@
             android:paddingBottom="16dp">
 
             <!-- Back Button -->
+            <Button
+                android:id="@+id/backButtonP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:padding="9dp"
+                android:text="Back"
+                android:backgroundTint="@color/red" />
 
             <!-- Main Header -->
             <TextView
-                android:id="@+id/headerTextView"
-                android:layout_width="wrap_content"
+                android:id="@+id/mainHeaderTextView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Game Day Predictions"
+                android:text="Prediction"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginStart="8dp" />
         </LinearLayout>
 
-        <!-- Spinner Section -->
+        <!-- Spinner for selecting the gameday -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Gameday"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
         <Spinner
             android:id="@+id/gamedaySpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp" />
 
-        <!-- Section: Prediction Table -->
+        <!-- Predictions Section -->
         <TextView
             android:id="@+id/predictionsHeader"
             android:layout_width="match_parent"
@@ -46,13 +64,10 @@
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
-        <!-- HorizontalScrollView for Table -->
         <HorizontalScrollView
-            android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- TableLayout inside HorizontalScrollView -->
             <TableLayout
                 android:id="@+id/predictionTable"
                 android:layout_width="wrap_content"
@@ -123,27 +138,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Most likely bets:"
+                android:text="Most Likely Bets:"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp" />
 
             <TextView
                 android:id="@+id/bestBetsContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp" />
         </LinearLayout>
-
-        <!-- Back Button in Best Bets Section -->
-        <Button
-            android:id="@+id/backButtonP"
-            android:layout_width="88dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="10dp"
-            android:text="Back "
-            android:backgroundTint="@color/red"/>
-
     </LinearLayout>
 </ScrollView>
