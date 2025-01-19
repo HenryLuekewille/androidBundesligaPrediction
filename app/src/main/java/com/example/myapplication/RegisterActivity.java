@@ -62,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             // Zeige eine Erfolgsmeldung und leite zur LoginActivity weiter
                             Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                             finish();  // Beende die RegisterActivity
                         }
                     } else {
