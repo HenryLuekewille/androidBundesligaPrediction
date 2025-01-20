@@ -92,3 +92,7 @@ Since the dataset is extensive, we selected only the most relevant data for our 
 - HBP = Home Team Bookings Points (10 = yellow, 25 = red)
 - ABP = Away Team Bookings Points (10 = yellow, 25 = red)
 
+
+
+Enjoy the Bundesliga Predictor and bring your football experience to the next level!
+By Henry Lükewille and Linus Piorkowsky
