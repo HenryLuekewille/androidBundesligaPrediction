@@ -47,6 +47,10 @@ Diese Arbeit wurde selbständig und eigenhändig erstellt. Die den benutzten Que
 
 # Dataset - Bundesligadata.csv
 
+The dataset was sourced from [Football-Data.co.uk](https://www.football-data.co.uk/germanym.php).  
+
+Since the dataset is extensive, we selected only the most relevant data for our analysis, ensuring a focused and efficient approach.
+
 ## Used:
 - Div = League Division
 - Date = Match Date (dd/mm/yy)
